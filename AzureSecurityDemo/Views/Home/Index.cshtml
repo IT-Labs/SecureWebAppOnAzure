@@ -1,0 +1,34 @@
+﻿@using System.Security.Claims
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.HasClaim(ClaimTypes.Role, "Administrator"))
+    {
+        <h1>You are an admin</h1>
+    }
+
+    <h4>Claims Present in the Claims Identity: @ViewBag.DisplayName</h4>
+
+    <table class="table-hover claim-table">
+        <tr>
+            <th class="claim-type claim-data claim-head">Claim Type</th>
+            <th class="claim-data claim-head">Claim Value</th>
+        </tr>
+
+        @foreach (Claim claim in User.Claims)
+        {
+            <tr>
+                <td class="claim-type claim-data">@claim.Type</td>
+                <td class="claim-data">@claim.Value</td>
+            </tr>
+        }
+    </table>
+}
+
+else
+{
+    <h1>Hello Anonymous</h1>
+}
