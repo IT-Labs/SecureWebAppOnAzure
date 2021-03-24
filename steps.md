@@ -113,14 +113,6 @@ _(Informative only)_ Another option for creating App Registration is:
 5. Click on Overview tab and restart your application
 6. Click on the web app URL and try to login
 
-## SSL TLS
-1. On the App Service, click on TLS/SSL settings tab
-2. If you are on free tier you need to upgrade your App Service Plan to Basic tier 
-		- click on the info message to upgrade your App Service Plan/ Click on Scale up(App Service plan) tab
-		- Click on B1 tier (Basic)
-		- Click on Apply
-3. On TLS/SSL settings tab, choose ON option for HTTPS Only.
-
 
 # RBAC (Role-based Access control)
 ## Create Users
@@ -271,3 +263,78 @@ After publishing the changes, log into the application with both users, the Admi
 7. Go back to your website and try to login with the user you enable MFA for
 8. Setup MFA for that user with Microsoft Authenticator on your phone
 9. After successfull setup of MFA, try log out and login again to see that MFA is enabled for that user
+
+
+# BONUS
+# RBAC - Service principal
+![image](https://user-images.githubusercontent.com/52662114/112330015-f7d88c80-8cb7-11eb-86fb-6a8c66d24bfc.png)
+
+## Create Key vault 
+1. Search Key Vault in Azure search bar, and click on Add Key Vault
+2. Coose your subscription and resource group
+3. Enter Instance details:
+	- Key vault name
+	- Region
+	- Pricing tier (Leave it as Standard)
+4. Click on Review+create
+5. Click on Create
+6. After creating of the resourcec, click on the Go to Resource button
+7. On the KeyVault page, click on Secrets and then Generate/Import button
+8. Add a new secret and define Secret_Name
+
+## Create Service principal for our application
+1. Open Azure cloud bash/powershell
+2. Create new service principal using az commands
+	az ad sp create-for-rbac -n name --skip-assignment
+3. Copy the output returned of the commant
+	- appId: client id of the service principal
+	- password: client secret 
+	- tenant: our tenant id
+5. We need to assign permission policy for access for the service principal, so the service principal can access the secrets into the key vault
+	az keyvault set-policy --name keyvaultname --spn "appId_of_sp" --secret-permissions backup delete get list set
+	
+## Add code changes to read secret from Key Vault
+1. Add the following methods in HomeController
+```
+ string GetVaultValue()
+        {
+            KeyVaultClient client = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(GetToken));
+            var vaultAddress = "https://anavault.vault.azure.net/";
+
+            var secretName = "SECRET_NAME_CREATED_IN_KEYVAULT";
+
+            var secret = client.GetSecretAsync(vaultAddress, secretName).GetAwaiter().GetResult();
+            return secret.Value;
+        }
+
+        async Task<string> GetToken(string authority, string resource, string scope)
+        {
+            var clientId = "APP_ID_OF_THE_SERVICE_PRINCIPAL";
+            var clientSecret = "CLIENT_SECRET_OF_SP";
+	    
+            Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential credential = new Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential(clientId, clientSecret);
+            var context = new AuthenticationContext(authority, Microsoft.IdentityModel.Clients.ActiveDirectory.TokenCache.DefaultShared);
+
+            var result = await context.AcquireTokenAsync(resource, credential);
+            return result.AccessToken;
+        }
+```
+2. Change the secret_name, appId and client secret in the code above with the values created before.
+3. Add the following two changes in the About method in Home Controller, so we can display the secret value of a secret from KeyVault on UI
+```
+var secret = GetVaultValue();
+ViewBag.Message = $"Hey {userfirstname}! Welcome {User.FindFirstValue(ClaimTypes.Role)} + {secret}";
+```
+4. Publish the web app again on Azure
+5. Login into the app and click on About to see the secret is get from key vault
+
+
+# SSL TLS
+1. On the App Service, click on TLS/SSL settings tab
+2. If you are on free tier you need to upgrade your App Service Plan to Basic tier 
+		- click on the info message to upgrade your App Service Plan/ Click on Scale up(App Service plan) tab
+		- Click on B1 tier (Basic)
+		- Click on Apply
+3. On TLS/SSL settings tab, choose ON option for HTTPS Only.
+4. Choose TLS 1.2 option
+
