@@ -10,8 +10,7 @@
 	- Select North Macedonia option in the Country or region box 
 7. Select Next: Review + Create. Review the information you entered and if the information is correct, select create.
 
-	Your new tenant is created with the domain _yourdomainname_.onmicrosoft.com.
-
+Your new tenant is created with the domain _yourdomainname_.onmicrosoft.com.
 
 ## Switch to our created tenant (directory)
 
@@ -29,7 +28,7 @@ In order to deploy our application to Azure, we need to create Web App resource.
 
 3. Click on Review+Create, and then Create.
 4. After the web app resource is created, click on Go the resource
-		- In Overview tab, click on the Web App URL to check if the app is started
+	- In Overview tab, click on the Web App URL to check if the app is started
 
 ## Publish our application to Azure
 
@@ -58,18 +57,19 @@ In order to deploy our application to Azure, we need to create Web App resource.
 12. Sign the consent screen for permissions
 13. The Home Page then is loaded in the web app
 
-_(Informative only)_ Another option for creating App Registration is:
-		1. On the Home Screen, go to Azure Active Directory resource
-		2. On the App registrations tab, click on New Registration
-			- Enter Name for the app registration
-			- Choose Supported account types for single or multi tenant
-		3. Click on Register
+_(Informative only)_ 
+Another option for creating App Registration is:
+1. On the Home Screen, go to Azure Active Directory resource
+2. On the App registrations tab, click on New Registration
+	- Enter Name for the app registration
+	- Choose Supported account types for single or multi tenant
+3. Click on Register
 
 
 ### Change the code to support AAD
 1. Add the following code in ConfigureServices method before _services.AddControllersWithViews();_ line in the Startup class for securing the app with OpenID Connect provider
 ```
-			services.AddAuthentication(options =>
+	    services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
@@ -94,7 +94,7 @@ _(Informative only)_ Another option for creating App Registration is:
 2. Add **[Authorize]** attribute to the HomeController
 
 **Get the App Registration data**
-1. 	On the Home Screen, go to Azure Active Directory resource
+1. On the Home Screen, go to Azure Active Directory resource
 2. Click on App Registration tab
 3. Choose our created app registration from the previous step
 4. Get the _Application (client) ID_ and add it to the ClientId option on the Autchentication options in the code on Configure Services method
@@ -119,12 +119,12 @@ _(Informative only)_ Another option for creating App Registration is:
 1. Search Users on the Search form
 2. On the Users page click on the New user link
 3. On the New User page enter the following fields:
-		- Add User name for the new user we are creating. Leave the domain name as default, since that is our tenant domain name
-		- Add a Name for the user
-		- Enter first anf last name
-		- On the Password options, choose Let me create the password and enter password for the user
-		- Dont choose anything on groups and roles yet since we haven't created roles
-		- Click on Create button
+	- Add User name for the new user we are creating. Leave the domain name as default, since that is our tenant domain name
+	- Add a Name for the user
+	- Enter first anf last name
+	- On the Password options, choose Let me create the password and enter password for the user
+	- Dont choose anything on groups and roles yet since we haven't created roles
+	- Click on Create button
 		
 ## Change the manifest to add multiple roles
 1. On the Azure Active Directory -> App Registrations -> Click on our app registration, click on Manifest
@@ -166,8 +166,8 @@ _(Informative only)_ Another option for creating App Registration is:
 2. Choose our app registration
 3. On the Users and groups tab, click on Add user/group to assign our application users to the newly created roles
 4. On the Add Assignment page: 
-		- select Users link and first add the owner logged in the Azure portal (current user)
-		- select a role and add Admin role to that user
+	- select Users link and first add the owner logged in the Azure portal (current user)
+	- select a role and add Admin role to that user
 6. Repeat the last step for the latest created User from the previous step and add him the Reader role
 7. Log in into the web app with the newly created user and see his role on the Claims screen, and check that he can access all of the pages
 
@@ -299,7 +299,7 @@ After publishing the changes, log into the application with both users, the Admi
  string GetVaultValue()
         {
             KeyVaultClient client = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(GetToken));
-            var vaultAddress = "https://anavault.vault.azure.net/";
+            var vaultAddress = "https://keyvaultname.vault.azure.net/";
 
             var secretName = "SECRET_NAME_CREATED_IN_KEYVAULT";
 
