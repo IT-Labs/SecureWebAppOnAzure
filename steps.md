@@ -1,3 +1,7 @@
+# Azure Active Directory
+![image](https://user-images.githubusercontent.com/52662114/112529395-82e38080-8da5-11eb-8ad3-717b385818db.png)
+
+
 # Create a new tenant 
 1. Sign in to your organization's Azure portal.
 2. From the Azure portal menu, select Azure Active Directory.
@@ -42,6 +46,10 @@ In order to deploy our application to Azure, we need to create Web App resource.
 
 
 # Enable Authentication for the app from the Azure portal
+
+
+![image](https://user-images.githubusercontent.com/52662114/112531111-7bbd7200-8da7-11eb-951e-6ea822368518.png)
+
 
 1. Click on Authentication/Authorization tab on the App Service
 2. Select On for App Service Authentication.
@@ -115,6 +123,9 @@ Another option for creating App Registration is:
 
 
 # RBAC (Role-based Access control)
+![image](https://user-images.githubusercontent.com/52662114/112533679-7f9ec380-8daa-11eb-8c96-87e008fa75fa.png)
+
+
 ## Create Users
 1. Search Users on the Search form
 2. On the Users page click on the New user link
