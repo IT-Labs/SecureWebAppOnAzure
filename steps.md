@@ -22,13 +22,13 @@ Your new tenant is created with the domain _yourdomainname_.onmicrosoft.com.
 In order to deploy our application to Azure, we need to create Web App resource.
 
 1. On the Basics tab enter the required fields:
-		- Select your subscription in Subscription field
-		- Select your resource group or create a new one
-		- Add name for your application in Name field
-		- In the Publish field select Code
-		- for runtime stack select .NET Core 3.1 since we will deploy .net core app
+	- Select your subscription in Subscription field
+	- Select your resource group or create a new one
+	- Add name for your application in Name field
+	- In the Publish field select Code
+	- for runtime stack select .NET Core 3.1 since we will deploy .net core app
 2. Click Next to go on the Monitor tab
-		- For Enable Application Insights select No, we don't want App Insights resource to be created along with the web app creation
+	- For Enable Application Insights select No, we don't want App Insights resource to be created along with the web app creation
 
 3. Click on Review+Create, and then Create.
 4. After the web app resource is created, click on Go the resource
@@ -46,10 +46,6 @@ In order to deploy our application to Azure, we need to create Web App resource.
 
 
 # Enable Authentication for the app from the Azure portal
-
-
-![image](https://user-images.githubusercontent.com/52662114/112531111-7bbd7200-8da7-11eb-951e-6ea822368518.png)
-
 
 1. Click on Authentication/Authorization tab on the App Service
 2. Select On for App Service Authentication.
@@ -72,6 +68,9 @@ Another option for creating App Registration is:
 	- Enter Name for the app registration
 	- Choose Supported account types for single or multi tenant
 3. Click on Register
+
+
+![image](https://user-images.githubusercontent.com/52662114/112531111-7bbd7200-8da7-11eb-951e-6ea822368518.png)
 
 
 ### Change the code to support AAD
